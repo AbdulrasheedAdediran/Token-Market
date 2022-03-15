@@ -12,7 +12,7 @@ async function deployContract() {
 
     const latestPrice = await token_market.getLatestPrice();
     // Get latest price
-    console.log("Latest Price for MATIC/USD is", latestPrice)
+    console.log("Latest Price for ETH/USD is", latestPrice)
 
 }
 

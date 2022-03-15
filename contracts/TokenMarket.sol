@@ -15,9 +15,9 @@ contract TokenMarket {
       
     TOKEN PAIR
      Network: Rinkeby
-     Aggregator: MATIC/USD	
+     Aggregator: ETH/USD	
      Decimals: 8	
-     Address: 0x7794ee502922e2b723432DDD852B3C30A911F021
+     Address: 0x8A753747A1Fa494EC906cE90E9f37563A8AF630e
      */		
     constructor(address tokenPairAddress) {
         priceFeed = AggregatorV3Interface(tokenPairAddress);
@@ -36,4 +36,6 @@ contract TokenMarket {
         ) = priceFeed.latestRoundData();
         return price;
     }
+
+
 }

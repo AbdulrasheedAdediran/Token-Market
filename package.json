@@ -6,6 +6,7 @@
   "author": "Abdulrasheed <abdrasheed1103@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@chainlink/contracts": "^0.4.0",
     "hardhat": "^2.9.1"
   }
 }

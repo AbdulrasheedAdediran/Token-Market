@@ -1,0 +1,11 @@
+{
+  "name": "Token-Market",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/AbdulrasheedAdediran/Token-Market.git",
+  "author": "Abdulrasheed <abdrasheed1103@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "hardhat": "^2.9.1"
+  }
+}

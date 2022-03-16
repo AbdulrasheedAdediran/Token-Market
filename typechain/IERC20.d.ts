@@ -11,6 +11,7 @@ import {
   PopulatedTransaction,
   BaseContract,
   ContractTransaction,
+  Overrides,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
@@ -18,43 +19,31 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface TokenMarketInterface extends ethers.utils.Interface {
+interface IERC20Interface extends ethers.utils.Interface {
   functions: {
-    "getLatestPrice()": FunctionFragment;
-    "swapEthToUsd(uint256)": FunctionFragment;
-    "swapUsdToEth(uint256,uint8)": FunctionFragment;
+    "approve(address,uint256)": FunctionFragment;
+    "balanceOf(address)": FunctionFragment;
+    "transfer(address,uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "getLatestPrice",
-    values?: undefined
+    functionFragment: "approve",
+    values: [string, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "swapEthToUsd",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "swapUsdToEth",
-    values: [BigNumberish, BigNumberish]
+    functionFragment: "transfer",
+    values: [string, BigNumberish]
   ): string;
 
-  decodeFunctionResult(
-    functionFragment: "getLatestPrice",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "swapEthToUsd",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "swapUsdToEth",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
 
   events: {};
 }
 
-export class TokenMarket extends BaseContract {
+export class IERC20 extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -95,80 +84,88 @@ export class TokenMarket extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: TokenMarketInterface;
+  interface: IERC20Interface;
 
   functions: {
-    getLatestPrice(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
+    approve(
+      spender: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    swapEthToUsd(
-      _amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber] & { _value: BigNumber }>;
+    balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    swapUsdToEth(
-      _amount: BigNumberish,
-      _precision: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber] & { _value: BigNumber }>;
+    transfer(
+      to: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
 
-  getLatestPrice(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
+  approve(
+    spender: string,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  swapEthToUsd(
-    _amount: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-  swapUsdToEth(
-    _amount: BigNumberish,
-    _precision: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  transfer(
+    to: string,
+    amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   callStatic: {
-    getLatestPrice(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
-
-    swapEthToUsd(
-      _amount: BigNumberish,
+    approve(
+      spender: string,
+      amount: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<boolean>;
 
-    swapUsdToEth(
-      _amount: BigNumberish,
-      _precision: BigNumberish,
+    balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    transfer(
+      to: string,
+      amount: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ): Promise<boolean>;
   };
 
   filters: {};
 
   estimateGas: {
-    getLatestPrice(overrides?: CallOverrides): Promise<BigNumber>;
-
-    swapEthToUsd(
-      _amount: BigNumberish,
-      overrides?: CallOverrides
+    approve(
+      spender: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    swapUsdToEth(
-      _amount: BigNumberish,
-      _precision: BigNumberish,
-      overrides?: CallOverrides
+    balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    transfer(
+      to: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    getLatestPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    approve(
+      spender: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
-    swapEthToUsd(
-      _amount: BigNumberish,
+    balanceOf(
+      account: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    swapUsdToEth(
-      _amount: BigNumberish,
-      _precision: BigNumberish,
-      overrides?: CallOverrides
+    transfer(
+      to: string,
+      amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

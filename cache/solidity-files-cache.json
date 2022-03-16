@@ -74,8 +74,8 @@
       ]
     },
     "C:\\Users\\HP\\Desktop\\Token-Market\\contracts\\TokenMarket.sol": {
-      "lastModificationDate": 1647368322050,
-      "contentHash": "c7c8bf88f332511831ef12b40e10cb31",
+      "lastModificationDate": 1647389818691,
+      "contentHash": "02c2cde062f727f6e12169e6be89fba8",
       "sourceName": "contracts/TokenMarket.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -143,6 +143,41 @@
       ],
       "artifacts": [
         "AggregatorV3Interface"
+      ]
+    },
+    "C:\\Users\\HP\\Desktop\\Token-Market\\contracts\\IERC20.sol": {
+      "lastModificationDate": 1647385411656,
+      "contentHash": "0222ca557df561563d46eb52c91296ad",
+      "sourceName": "contracts/IERC20.sol",
+      "solcConfig": {
+        "version": "0.8.4",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC20"
       ]
     }
   }

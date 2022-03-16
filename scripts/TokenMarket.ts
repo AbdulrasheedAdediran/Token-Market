@@ -16,12 +16,13 @@ async function deployContract() {
     const amountETH = 2;
     const EthToUsd = await token_market.swapEthToUsd(amountETH, precision);
     const UsdToEth = await token_market.swapUsdToEth(amountUSDT, precision)
-        // ethers.utils.parseEther("2"));
-    // ethers.utils.parseEthers()
+      
     
     // Get latest price
     console.log(`Latest Price for ETH/USD pair is ${latestPrice}`);
-    console.log(`Current value of ${amountETH}ETH in USD is ${parseInt(EthToUsd.toString())/10**precision}USD`);
+    // Value of ETH in USD
+    console.log(`Current value of ${amountETH}ETH in USD is ${parseInt(EthToUsd.toString()) / 10 ** precision}USD`);
+    // Value of USD in ETH
     console.log(`Current value of ${amountUSDT}USD to ETH is ${parseInt(UsdToEth.toString())/10**precision}ETH`);
 
 

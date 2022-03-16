@@ -21,7 +21,7 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 interface TokenMarketInterface extends ethers.utils.Interface {
   functions: {
     "getLatestPrice()": FunctionFragment;
-    "swapEthToUsd(uint256)": FunctionFragment;
+    "swapEthToUsd(uint256,uint8)": FunctionFragment;
     "swapUsdToEth(uint256,uint8)": FunctionFragment;
   };
 
@@ -31,7 +31,7 @@ interface TokenMarketInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "swapEthToUsd",
-    values: [BigNumberish]
+    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "swapUsdToEth",
@@ -102,6 +102,7 @@ export class TokenMarket extends BaseContract {
 
     swapEthToUsd(
       _amount: BigNumberish,
+      _precision: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber] & { _value: BigNumber }>;
 
@@ -116,6 +117,7 @@ export class TokenMarket extends BaseContract {
 
   swapEthToUsd(
     _amount: BigNumberish,
+    _precision: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
@@ -130,6 +132,7 @@ export class TokenMarket extends BaseContract {
 
     swapEthToUsd(
       _amount: BigNumberish,
+      _precision: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -147,6 +150,7 @@ export class TokenMarket extends BaseContract {
 
     swapEthToUsd(
       _amount: BigNumberish,
+      _precision: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -162,6 +166,7 @@ export class TokenMarket extends BaseContract {
 
     swapEthToUsd(
       _amount: BigNumberish,
+      _precision: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

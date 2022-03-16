@@ -39,17 +39,16 @@ contract TokenMarket {
         return (price, decimal);
     }
 // Swap ETH to USD
+function swapEthToUsd(uint _amount, uint8 _precision) public view returns(uint _value){
 // Amount of ETH to be swapped at Current ETH price/ Current USD Price
-function swapEthToUsd(uint _amount) public view returns(uint _value){
-
     (int price, uint decimal) = getLatestPrice();
-    _value = (uint(price) * _amount) / 10**decimal;
+    _value = (uint(price) * _amount * 10**_precision) / 10**decimal;
 }
 
 
 // // Swap from USDT to ETH
-// Amount of USD to be swapped at Current USD price/ Current ETH Price
 function swapUsdToEth(uint _amount, uint8 _precision) public view returns(uint _value){
+// Amount of USD to be swapped at Current USD price/ Current ETH Price
     (int price, uint decimal) = getLatestPrice();
     _value = ((10**decimal)* _amount * 10**_precision) / uint(price);
 }

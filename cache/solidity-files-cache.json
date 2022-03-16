@@ -74,8 +74,8 @@
       ]
     },
     "C:\\Users\\HP\\Desktop\\Token-Market\\contracts\\TokenMarket.sol": {
-      "lastModificationDate": 1647389818691,
-      "contentHash": "02c2cde062f727f6e12169e6be89fba8",
+      "lastModificationDate": 1647391819080,
+      "contentHash": "6bbe498fb44363d86a5749686149b54a",
       "sourceName": "contracts/TokenMarket.sol",
       "solcConfig": {
         "version": "0.8.4",

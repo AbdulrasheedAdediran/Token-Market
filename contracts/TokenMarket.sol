@@ -41,7 +41,7 @@ contract TokenMarket {
 // Amount of WAVAX to be swapped at Current WAVAX price/Current USDT Price
 function swapWavaxToUsdt(uint _amount) public returns(uint256 swapAmount){
      (int price, uint decimal) = getLatestPrice();
-    uint256 _value = _amount * uint(price);
+    uint256 _value = _amount * uint(price) * 10**decimal;
     uint256 div = 10**decimal;
     swapAmount = _value/div;
     wavax.transferFrom(msg.sender, address(this), _amount);

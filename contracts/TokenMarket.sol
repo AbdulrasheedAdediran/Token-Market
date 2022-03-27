@@ -4,19 +4,22 @@
 pragma solidity 0.8.4;
 
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 
 contract TokenMarket {
 
     AggregatorV3Interface internal priceFeed;
-     
+    IERC20 wavax = IERC20(0x85f138bfEE4ef8e540890CFb48F620571d67Eda3);
+    IERC20 usdt = IERC20(0xdAC17F958D2ee523a2206206994597C13D831ec7);
+    event tokenSwap(address from, uint256 amount);
    
      /**
     TOKEN PAIR
-     Network: Rinkeby
-     Aggregator: ETH/USD	
+     Network: Mainnet
+     Aggregator: WAVAX/USDT	
      Decimals: 8	
-     Address: 0x8A753747A1Fa494EC906cE90E9f37563A8AF630e
+     Address: 0xFF3EEb22B5E3dE6e705b44749C2559d704923FD7
      */		
 
     constructor(address tokenPairAddress) {
@@ -28,28 +31,34 @@ contract TokenMarket {
      */
     function getLatestPrice() public view returns (int, uint) {
         (
-            /*uint80 roundID*/,
-            int price,
-            /*uint startedAt*/,
-            /*uint timeStamp*/,
-            /*uint80 answeredInRound*/
+          , int price,,,
+           
         ) = priceFeed.latestRoundData();
         uint decimal = priceFeed.decimals(); 
         return (price, decimal);
     }
-// Swap ETH to USD
-function swapEthToUsd(uint _amount, uint8 _precision) public view returns(uint _value){
-// Amount of ETH to be swapped at Current ETH price/ Current USD Price
-    (int price, uint decimal) = getLatestPrice();
-    _value = (uint(price) * _amount * 10**_precision) / 10**decimal;
+// Swap WAVAX to USDT
+// Amount of WAVAX to be swapped at Current WAVAX price/Current USDT Price
+function swapWavaxToUsdt(uint _amount) public returns(uint256 swapAmount){
+     (int price, uint decimal) = getLatestPrice();
+    uint256 _value = _amount * uint(price);
+    uint256 div = 10**decimal;
+    swapAmount = _value/div;
+    wavax.transferFrom(msg.sender, address(this), _amount);
+    usdt.transfer(msg.sender, _amount);
+    emit tokenSwap(msg.sender, _amount);
 }
 
 
-// // Swap from USDT to ETH
-function swapUsdToEth(uint _amount, uint8 _precision) public view returns(uint _value){
-// Amount of USD to be swapped at Current USD price/ Current ETH Price
-    (int price, uint decimal) = getLatestPrice();
-    _value = ((10**decimal)* _amount * 10**_precision) / uint(price);
+// // Swap from USDT to WAVAX
+// Amount of USDT to be swapped at Current USD price/ Current WAVAX Price
+function swapUsdtToWavax(uint256 _amount) public returns(uint256 swapAmount){
+    (int256 price, uint decimal) = getLatestPrice();
+   uint256  _value = uint256(price);
+   swapAmount = (_amount * 10**decimal) / _value;
+   usdt.transferFrom(msg.sender, address(this), _amount);
+   wavax.transfer(msg.sender, _amount);
+   emit tokenSwap(msg.sender, _amount);
 }
 
 
